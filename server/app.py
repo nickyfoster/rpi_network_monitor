@@ -20,7 +20,7 @@ def health_check_view(app):
     return health_check
 
 
-def prepare() -> FastAPI:
+def prepare():
     app = FastAPI()
     health_check_view(app=app)
     speedtest_view(app=app)
