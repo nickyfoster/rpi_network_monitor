@@ -1,9 +1,9 @@
-import subprocess
 import secrets
+
+import speedtest
 from fastapi import Depends, FastAPI, HTTPException, status
 from fastapi.security import HTTPBasic, HTTPBasicCredentials
-import speedtest
-
+import config
 app = FastAPI()
 
 security = HTTPBasic()
@@ -11,8 +11,8 @@ st = speedtest.Speedtest()
 
 
 def get_current_username(credentials: HTTPBasicCredentials = Depends(security)):
-    correct_username = secrets.compare_digest(credentials.username, "admin")
-    correct_password = secrets.compare_digest(credentials.password, "nimda")
+    correct_username = secrets.compare_digest(credentials.username, config.username)
+    correct_password = secrets.compare_digest(credentials.password, config.password)
     if not (correct_username and correct_password):
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
